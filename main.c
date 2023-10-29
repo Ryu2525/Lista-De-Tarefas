@@ -34,6 +34,33 @@ int main() {
         else if(opcao == 4){
             AlterarTarefa(&lt);
         }
+        else if(opcao == 5){
+            // int FiltrarPrioridade(lt);
+        }
+        
+        else if(opcao == 6){
+            // int FiltrarEstado(lt);
+        }
+        
+        else if(opcao == 7){
+            // int FiltrarCategoria(lt);
+        }
+        
+        else if(opcao == 8){
+            // int FiltrarPrioridadeCategoria(lt);
+        }
+        
+        else if(opcao == 9){
+            // int ExportarPrioridade(lt);
+        }
+        
+        else if(opcao == 10){
+            // int ExportarCategoria(lt);
+        }
+        
+        else if(opcao == 11){
+            // int ExportarPrioridadeCategoria(lt);
+        }
 
     }while(opcao != 0); // permite que o usuário saia do programa
 

@@ -17,6 +17,13 @@ int criarTarefa(ListaDeTarefas *lt);
 int DeletarTarefa(ListaDeTarefas *lt);
 int ListarTarefa(ListaDeTarefas lt);
 int AlterarTarefa(ListaDeTarefas *lt);
+int FiltrarPrioridade(ListaDeTarefas *lt);
+int FiltrarEstado(ListaDeTarefas *lt);
+int FiltrarCategoria(ListaDeTarefas *lt);
+int FiltrarPrioridadeCategoria(ListaDeTarefas *lt);
+int ExportarPrioridade(ListaDeTarefas *lt);
+int ExportarCategoria(ListaDeTarefas *lt);
+int ExportarPrioridadeCategoria(ListaDeTarefas *lt);
 
 void printMenu();
 void clearBuffer(); 

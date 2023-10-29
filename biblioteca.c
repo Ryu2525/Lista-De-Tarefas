@@ -4,7 +4,19 @@
 
 void printMenu(){ // usada para printar o menu toda vez que acontece alguma ação no programa
     printf("\nGerenciador de Tarefas\n");
-    printf("Escolha a funcao:\n 1 Adicionar nova tarefa\n 2 Deletar tarefa\n 3 Listar tarefas\n 4 Alterar Tarefa\n 0 Sair\n");
+    printf("Escolha a funcao:\n");
+    printf("1 Adicionar nova tarefa\n");
+    printf("2 Deletar tarefa\n");
+    printf("3 Listar tarefas\n");
+    printf("4 Alterar Tarefa\n");
+    printf("5 Filtrar por prioridade\n");
+    printf("6 Filtrar por estado\n");
+    printf("7 Filtrar por Categoria\n");
+    printf("8 Filtrar por Prioridade e Categoria\n");
+    printf("9 Exportar por Prioridade\n");
+    printf("10 Exportar por Categoria\n");
+    printf("11 Exportar por Prioridade e Categoria\n");
+    printf("0 Sair\n");
 }
 
 int criarTarefa(ListaDeTarefas *lt) {
@@ -64,6 +76,7 @@ int ListarTarefa(ListaDeTarefas lt){
 int AlterarTarefa(ListaDeTarefas *lt){
     int tarefaEscolhida;
     int escolha;
+    int tarefaEncontrado = 0;
 
     printf("Escolha a Tarefa: ");
     scanf("%d", &tarefaEscolhida);
@@ -100,10 +113,17 @@ int AlterarTarefa(ListaDeTarefas *lt){
                 printf("Alteracao realizada com sucesso!\n");
 
             }
-        }else{
-            printf("Tarefa não encontrada\n");
+            tarefaEncontrado = 1;
+            }
         }
+        if(!tarefaEncontrado){
+            printf("Tarefa não encontrado!\n");
     }
+}
+
+
+int FiltrarPrioridade(ListaDeTarefas *lt){
+
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
