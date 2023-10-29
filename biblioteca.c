@@ -4,9 +4,8 @@
 
 void printMenu(){ // usada para printar o menu toda vez que acontece alguma ação no programa
     printf("\nGerenciador de Tarefas\n");
-    printf("Escolha a funcao:\n 1 Adicionar nova tarefa\n 2 Deletar tarefa\n 3 Listar tarefas\n 4 Sair\n");
+    printf("Escolha a funcao:\n 1 Adicionar nova tarefa\n 2 Deletar tarefa\n 3 Listar tarefas\n 4 Alterar Tarefa\n 0 Sair\n");
 }
-
 
 int criarTarefa(ListaDeTarefas *lt) {
 
@@ -23,7 +22,7 @@ int criarTarefa(ListaDeTarefas *lt) {
         scanf(" %[^\n]", lt->tarefas[lt->qtd].categoria);
         clearBuffer();
 
-        print("Digite o estado da atividade: ");
+        printf("Digite o estado da atividade (completo|em andamento|não iniciado): ");
         scanf(" %[^\n]", lt->tarefas[lt->qtd].estado);
 
         printf("Tarefa adicionada com sucesso!\n");
@@ -56,9 +55,55 @@ int ListarTarefa(ListaDeTarefas lt){
             printf("Descricao: %s\n", lt.tarefas[i].descricao);
             printf("Categoria: %s\n", lt.tarefas[i].categoria);
             printf("Prioridade: %d\n", lt.tarefas[i].prioridade);
+            printf("Estado: %s\n", lt.tarefas[i].estado);
             printf("\n");
         }
     return 0;
+}
+
+int AlterarTarefa(ListaDeTarefas *lt){
+    int tarefaEscolhida;
+    int escolha;
+
+    printf("Escolha a Tarefa: ");
+    scanf("%d", &tarefaEscolhida);
+    clearBuffer();
+
+    for(int i = 0; i < lt->qtd; i++){
+        if(i == tarefaEscolhida){
+            printf("Escolha a opcao que deseja modificar(1 Descricao, 2 Categoria, 3 Prioridade, 4 Estado): ");
+            scanf("%d", &escolha);
+            clearBuffer();
+
+            if(escolha == 1){
+                printf("Escreva a nova descricao: ");
+                scanf(" %[^\n]", lt->tarefas[i].descricao);
+                clearBuffer();
+                printf("Alteracao realizada com sucesso!\n");
+
+            }else if(escolha == 2){
+                printf("Escreva a nova categoria: ");
+                scanf(" %[^\n]", lt->tarefas[i].categoria);
+                clearBuffer();
+                printf("Alteracao realizada com sucesso!\n");
+
+            }else if(escolha == 3){
+                printf("Escreva a nova prioridade(0 a 10): ");
+                scanf(" %d", &lt->tarefas[i].prioridade);
+                clearBuffer();
+                printf("Alteracao realizada com sucesso!\n");
+
+            }else if(escolha == 4){
+                printf("Escreva o novo estado: ");
+                scanf(" %[^\n]", lt->tarefas[i].estado);
+                clearBuffer();
+                printf("Alteracao realizada com sucesso!\n");
+
+            }
+        }else{
+            printf("Tarefa não encontrada\n");
+        }
+    }
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////

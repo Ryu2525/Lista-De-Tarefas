@@ -16,6 +16,7 @@ typedef struct{ // struct que armazenará cada tarefa
 int criarTarefa(ListaDeTarefas *lt);
 int DeletarTarefa(ListaDeTarefas *lt);
 int ListarTarefa(ListaDeTarefas lt);
+int AlterarTarefa(ListaDeTarefas *lt);
 
 void printMenu();
 void clearBuffer(); 

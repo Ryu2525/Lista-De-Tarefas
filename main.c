@@ -31,8 +31,11 @@ int main() {
         else if(opcao == 3){
             ListarTarefa(lt);
         }
+        else if(opcao == 4){
+            AlterarTarefa(&lt);
+        }
 
-    }while(opcao != 4); // permite que o usuário saia do programa
+    }while(opcao != 0); // permite que o usuário saia do programa
 
     //Logica que salva todas as funções feitas dentro do arquivo
     cod = salvarLista(&lt, "salvo.txt");
