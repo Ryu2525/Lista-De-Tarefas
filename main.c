@@ -39,7 +39,7 @@ int main() {
         }
         
         else if(opcao == 6){
-            // int FiltrarEstado(lt);
+            FiltrarEstado(lt);
         }
         
         else if(opcao == 7){

@@ -34,7 +34,7 @@ int criarTarefa(ListaDeTarefas *lt) {
         scanf(" %[^\n]", lt->tarefas[lt->qtd].categoria);
         clearBuffer();
 
-        printf("Digite o estado da atividade (completo|em andamento|não iniciado): ");
+        printf("Digite o estado da atividade (completo|em andamento|nao iniciado): ");
         scanf(" %[^\n]", lt->tarefas[lt->qtd].estado);
 
         printf("Tarefa adicionada com sucesso!\n");
@@ -146,6 +146,33 @@ int FiltrarPrioridade(ListaDeTarefas lt){// Função para filtrar pela prioridad
     if (!verificar){
         printf("Não existe tarefa com essa prioridade\n");
     }
+    return 0;
+}
+
+int FiltrarEstado(ListaDeTarefas lt){
+    char estado[15];
+
+    printf("Filtrar pela estado (completo|em andamento|nao iniciado): \n");//O usuario vai poder escolher qual vai ser a prioridade que deseja ver
+    scanf(" %[^\n]", estado);
+    clearBuffer();
+    int verificar = 0;
+
+    for(int i = 0; i < lt.qtd; i++){
+        if(strcmp(lt.tarefas[i].estado, estado) == 0){
+            printf("Tarefa %d\n", i);
+            printf("Descricao: %s\n", lt.tarefas[i].descricao);
+            printf("Categoria: %s\n", lt.tarefas[i].categoria);
+            printf("Prioridade: %d\n", lt.tarefas[i].prioridade);
+            printf("Estado: %s\n", lt.tarefas[i].estado);
+            printf("\n");
+            
+            verificar = 1;
+        }    
+    }
+    if (!verificar){
+        printf("Não existe tarefa com esse estado\n");
+    }  
+
     return 0;
 }
 
