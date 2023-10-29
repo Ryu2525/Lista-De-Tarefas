@@ -47,7 +47,7 @@ int main() {
         }
         
         else if(opcao == 8){
-            // int FiltrarPrioridadeCategoria(lt);
+            FiltrarPrioridadeCategoria(lt);
         }
         
         else if(opcao == 9){

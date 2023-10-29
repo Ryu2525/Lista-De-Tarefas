@@ -3,7 +3,7 @@
 
 typedef struct  { // struct que mostra onde vai ser salvo cada tipo de conteudo
     char descricao[300];
-    char categoria[100];
+    char categoria[50];
     int prioridade;
     char estado[15];
 }Tarefa;
