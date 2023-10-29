@@ -119,11 +119,34 @@ int AlterarTarefa(ListaDeTarefas *lt){
         if(!tarefaEncontrado){
             printf("Tarefa não encontrado!\n");
     }
+    return 0;
 }
 
 
-int FiltrarPrioridade(ListaDeTarefas *lt){
+int FiltrarPrioridade(ListaDeTarefas lt){// Função para filtrar pela prioridade
+    int prioridade;
 
+    printf("Filtrar pela prioridade (0 a 10)\n");//O usuario vai poder escolher qual vai ser a prioridade que deseja ver
+    scanf("%d", &prioridade);
+    clearBuffer();
+    int verificar = 0;
+
+    for(int i = 0; i < lt.qtd; i++){
+        if(lt.tarefas[i].prioridade == prioridade){
+            printf("Tarefa %d\n", i);
+            printf("Descricao: %s\n", lt.tarefas[i].descricao);
+            printf("Categoria: %s\n", lt.tarefas[i].categoria);
+            printf("Prioridade: %d\n", lt.tarefas[i].prioridade);
+            printf("Estado: %s\n", lt.tarefas[i].estado);
+            printf("\n");
+
+            verificar = 1;
+        }
+    }
+    if (!verificar){
+        printf("Não existe tarefa com essa prioridade\n");
+    }
+    return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -35,7 +35,7 @@ int main() {
             AlterarTarefa(&lt);
         }
         else if(opcao == 5){
-            // int FiltrarPrioridade(lt);
+            FiltrarPrioridade(lt);
         }
         
         else if(opcao == 6){
