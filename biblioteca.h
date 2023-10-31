@@ -21,7 +21,7 @@ int FiltrarPrioridade(ListaDeTarefas lt);
 int FiltrarEstado(ListaDeTarefas lt);
 int FiltrarCategoria(ListaDeTarefas lt);
 int FiltrarPrioridadeCategoria(ListaDeTarefas lt);
-int ExportarPrioridade(ListaDeTarefas lt);
+int ExportarPrioridadeParaArquivo(ListaDeTarefas lt);
 int ExportarCategoria(ListaDeTarefas lt);
 int ExportarPrioridadeCategoria(ListaDeTarefas lt);
 
@@ -30,5 +30,8 @@ void clearBuffer();
 
 int salvarLista(ListaDeTarefas *lt, char nome[]);
 int carregarLista(ListaDeTarefas *lt, char nome[]);
+
+int Exportar(ListaDeTarefas *lt, char nome[]);
+int carregarExportar(ListaDeTarefas *lt, char nome[]);
 
 #endif //UNTITLED3_BIBLIOTECA_H

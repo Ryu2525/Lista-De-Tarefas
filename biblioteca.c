@@ -214,7 +214,7 @@ int FiltrarPrioridadeCategoria(ListaDeTarefas lt){
     int verificar = 0;
 
     for(int i = 0; i < lt.qtd; i++){
-        if(lt.tarefas[i].prioridade == prioridade && lt.tarefas[i].categoria == categoria){
+        if(lt.tarefas[i].prioridade == prioridade && strcmp(lt.tarefas[i].categoria, categoria) == 0){
             printf("Categoria: %s\n", lt.tarefas[i].categoria);
             printf("Prioridade: %d\n", lt.tarefas[i].prioridade);
             printf("Descricao: %s\n", lt.tarefas[i].descricao);
@@ -227,6 +227,46 @@ int FiltrarPrioridadeCategoria(ListaDeTarefas lt){
     if (!verificar){
         printf("Não existe tarefa com essa prioridade\n");
     }
+    return 0;
+}
+
+int ExportarPrioridadeParaArquivo(ListaDeTarefas lt) {
+    int prioridade;
+
+    printf("Escolha a prioridade (0 a 10): ");//O usuario vai poder escolher qual vai ser a prioridade que deseja ver
+    scanf("%d", &prioridade);
+    clearBuffer();
+
+    FILE *arquivo;
+    arquivo = fopen("exportar.txt", "w"); // Abre o arquivo para escrita (cria um novo arquivo se não existir)
+
+    if (arquivo == NULL) {
+        printf("Não foi possível abrir o arquivo para escrita.\n");
+        return 1; // Retorna um código de erro
+    }
+
+    int verificar = 0;
+
+    for (int i = 0; i < lt.qtd; i++) {
+        if (lt.tarefas[i].prioridade == prioridade) {
+            fprintf(arquivo, "Prioridade: %d\n", lt.tarefas[i].prioridade);
+            fprintf(arquivo, "Descricao: %s\n", lt.tarefas[i].descricao);
+            fprintf(arquivo, "Categoria: %s\n", lt.tarefas[i].categoria);
+            fprintf(arquivo, "Estado: %s\n", lt.tarefas[i].estado);
+            fprintf(arquivo, "\n");
+
+            verificar = 1;
+        }
+    }
+
+    fclose(arquivo); // Fecha o arquivo
+
+    if (!verificar) {
+        printf("Não existe tarefa com essa prioridade.\n");
+        return 1; // Retorna um código de erro
+    }
+
+    printf("Tarefas exportadas com sucesso para o arquivo 'exortar.txt'.\n");
     return 0;
 }
 
@@ -249,6 +289,29 @@ int salvarLista(ListaDeTarefas *lt, char nome[]){ // "escreve" em uma arquivo a 
 }
 int carregarLista(ListaDeTarefas *lt, char nome[]){ // "lê" as informações em binário para que sejam usadas no programa toda vez que for iniciado
     FILE *f = fopen(nome, "rb");
+    if (f == NULL){
+        return 1;
+    }
+    else{
+        fread(lt, sizeof(ListaDeTarefas),1, f);
+        fclose(f);
+    }
+    return 0;
+}
+
+int Exportar(ListaDeTarefas *lt, char nome[]){ 
+    FILE *f = fopen(nome, "w");
+    if(f == NULL){
+        return 1;
+    }else {
+        fwrite(lt, sizeof(ListaDeTarefas), 1, f);
+        fclose(f);
+    }
+    return 0;
+}
+
+int carregarExportar(ListaDeTarefas *lt, char nome[]){
+    FILE *f = fopen(nome, "r");
     if (f == NULL){
         return 1;
     }

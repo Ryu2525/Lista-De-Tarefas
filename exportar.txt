@@ -1,0 +1,15 @@
+Prioridade: 5
+Descricao: corrida
+Categoria: a
+Estado: completo
+
+Prioridade: 5
+Descricao: corrida
+Categoria: a
+Estado: completo
+
+Prioridade: 5
+Descricao: pular
+Categoria: exercicio
+Estado: em andamento
+
