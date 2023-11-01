@@ -19,7 +19,9 @@ void printMenu(){ // usada para printar o menu toda vez que acontece alguma aç�
     printf("0 Sair\n");
 }
 
-int criarTarefa(ListaDeTarefas *lt) {
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+int criarTarefa(ListaDeTarefas *lt) { // Cria as tarefas para dentro do struct
 
     if (lt->qtd < 100) { // se a lista tiver menos que 100 tarefas, é possivel configurar uma
         printf("Digite a descricao: ");
@@ -39,14 +41,14 @@ int criarTarefa(ListaDeTarefas *lt) {
 
         printf("Tarefa adicionada com sucesso!\n");
     }
-    else{
+    else{ // se a lista tiver mais de 100 nao vai deixar criar mais tarefas
         printf("Sua lista de tarefas esta cheia!");
     }
     lt->qtd++;// estrutura que pula pra proxima linha do arquivo para que o usuario nao salve as novas tarefas em cima das outras
     return 0;
 }
 
-int DeletarTarefa(ListaDeTarefas *lt){
+int DeletarTarefa(ListaDeTarefas *lt){ // deleta a tarefa escolhida pelo indice dela que esta entre 0 a 99
     int tarefaEscolhida;
     printf("Qual tarefa voce deseja deletar? (0 a 99)"); // informa a tarefa a ser deletada
     scanf("%d", &tarefaEscolhida);
@@ -61,7 +63,7 @@ int DeletarTarefa(ListaDeTarefas *lt){
 }
 
 
-int ListarTarefa(ListaDeTarefas lt){
+int ListarTarefa(ListaDeTarefas lt){ // lista as tarefas sem filtro
         for (int i = 0; i < lt.qtd; i++){ //apenas aparece as tarefas já estabelecidas
             printf("Tarefa %d\n", i);
             printf("Descricao: %s\n", lt.tarefas[i].descricao);
@@ -73,7 +75,7 @@ int ListarTarefa(ListaDeTarefas lt){
     return 0;
 }
 
-int AlterarTarefa(ListaDeTarefas *lt){
+int AlterarTarefa(ListaDeTarefas *lt){ // Se houver algum erro na hora da criação da tarefa, o usuario pode trocar alguma informação escolhendo o indice da tarefa
     int tarefaEscolhida;
     int escolha;
     int tarefaEncontrado = 0;
@@ -84,10 +86,11 @@ int AlterarTarefa(ListaDeTarefas *lt){
 
     for(int i = 0; i < lt->qtd; i++){
         if(i == tarefaEscolhida){
-            printf("Escolha a opcao que deseja modificar(1 Descricao, 2 Categoria, 3 Prioridade, 4 Estado): ");
+            printf("Escolha a opcao que deseja modificar(1 Descricao, 2 Categoria, 3 Prioridade, 4 Estado): "); // escolhe a area que deseja modificar
             scanf("%d", &escolha);
             clearBuffer();
 
+            // logica de modificar a area que deseja
             if(escolha == 1){
                 printf("Escreva a nova descricao: ");
                 scanf(" %[^\n]", lt->tarefas[i].descricao);
@@ -116,12 +119,13 @@ int AlterarTarefa(ListaDeTarefas *lt){
             tarefaEncontrado = 1;
             }
         }
-        if(!tarefaEncontrado){
+        if(!tarefaEncontrado){ // caso nao exista a tarefa
             printf("Tarefa não encontrado!\n");
     }
     return 0;
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int FiltrarPrioridade(ListaDeTarefas lt){// Função para filtrar pela prioridade
     int prioridade;
@@ -132,7 +136,7 @@ int FiltrarPrioridade(ListaDeTarefas lt){// Função para filtrar pela prioridad
     int verificar = 0;
 
     for(int i = 0; i < lt.qtd; i++){
-        if(lt.tarefas[i].prioridade == prioridade){
+        if(lt.tarefas[i].prioridade == prioridade){ // comparação que filtra pelas prioridades iguais encontrado na lista
             printf("Prioridade: %d\n", lt.tarefas[i].prioridade);
             printf("Descricao: %s\n", lt.tarefas[i].descricao);
             printf("Categoria: %s\n", lt.tarefas[i].categoria);
@@ -148,7 +152,7 @@ int FiltrarPrioridade(ListaDeTarefas lt){// Função para filtrar pela prioridad
     return 0;
 }
 
-int FiltrarEstado(ListaDeTarefas lt){
+int FiltrarEstado(ListaDeTarefas lt){ // filtra pelo estado da tarefa: Completo, em andamento ou nao iniciada
     char estado[15];
 
     printf("Escolha o estado (completo|em andamento|nao iniciado): ");//O usuario vai poder escolher qual vai ser a prioridade que deseja ver
@@ -157,7 +161,7 @@ int FiltrarEstado(ListaDeTarefas lt){
     int verificar = 0;
 
     for(int i = 0; i < lt.qtd; i++){
-        if(strcmp(lt.tarefas[i].estado, estado) == 0){
+        if(strcmp(lt.tarefas[i].estado, estado) == 0){ // logica de comparação para ver o estado que as tarefas estão
             printf("Estado: %s\n", lt.tarefas[i].estado);
             printf("Descricao: %s\n", lt.tarefas[i].descricao);
             printf("Categoria: %s\n", lt.tarefas[i].categoria);
@@ -174,7 +178,7 @@ int FiltrarEstado(ListaDeTarefas lt){
     return 0;
 }
 
-int FiltrarCategoria(ListaDeTarefas lt){//completar //apagar 
+int FiltrarCategoria(ListaDeTarefas lt){//preciso terminar
     char categoria[50];
 
     printf("Escolha a categoria: \n");//O usuario vai poder escolher qual vai ser a prioridade que deseja ver
@@ -201,7 +205,7 @@ int FiltrarCategoria(ListaDeTarefas lt){//completar //apagar
     return 0;
 }
 
-int FiltrarPrioridadeCategoria(ListaDeTarefas lt){
+int FiltrarPrioridadeCategoria(ListaDeTarefas lt){ // filtrar por duas coisas: categoria e prioridade. Então se essas duas condições não forem satisfeita a tarefa nao aparece
     char categoria[50];
     int prioridade;
 
@@ -214,7 +218,7 @@ int FiltrarPrioridadeCategoria(ListaDeTarefas lt){
     int verificar = 0;
 
     for(int i = 0; i < lt.qtd; i++){
-        if(lt.tarefas[i].prioridade == prioridade && strcmp(lt.tarefas[i].categoria, categoria) == 0){
+        if(lt.tarefas[i].prioridade == prioridade && strcmp(lt.tarefas[i].categoria, categoria) == 0){ // logica de comparação da prioridade e categoria
             printf("Categoria: %s\n", lt.tarefas[i].categoria);
             printf("Prioridade: %d\n", lt.tarefas[i].prioridade);
             printf("Descricao: %s\n", lt.tarefas[i].descricao);
@@ -230,7 +234,9 @@ int FiltrarPrioridadeCategoria(ListaDeTarefas lt){
     return 0;
 }
 
-int ExportarPrioridadeParaArquivo(ListaDeTarefas lt) {
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+int ExportarPrioridadeParaArquivo(ListaDeTarefas lt) { // Exportar para o arquivo exportar.txt as tarefas que apresentam prioridade iguais
     int prioridade;
 
     printf("Escolha a prioridade (0 a 10): ");//O usuario vai poder escolher qual vai ser a prioridade que deseja ver
@@ -248,7 +254,7 @@ int ExportarPrioridadeParaArquivo(ListaDeTarefas lt) {
     int verificar = 0;
 
     for (int i = 0; i < lt.qtd; i++) {
-        if (lt.tarefas[i].prioridade == prioridade) {
+        if (lt.tarefas[i].prioridade == prioridade) { // logica de printar no arquivo txt
             fprintf(arquivo, "Prioridade: %d\n", lt.tarefas[i].prioridade);
             fprintf(arquivo, "Categoria: %s\n", lt.tarefas[i].categoria);
             fprintf(arquivo, "Estado: %s\n", lt.tarefas[i].estado);
@@ -270,8 +276,10 @@ int ExportarPrioridadeParaArquivo(ListaDeTarefas lt) {
     return 0;
 }
 
+// int ExportarCategoria(lt);
 
-int ExportarPrioridadeCategoria(ListaDeTarefas lt){
+
+int ExportarPrioridadeCategoria(ListaDeTarefas lt){ // exportar informações para o arquivo exportar.txt
     char categoria[50];
     int prioridade;
 
@@ -292,7 +300,7 @@ int ExportarPrioridadeCategoria(ListaDeTarefas lt){
     int verificar = 0;
 
     for (int i = 0; i < lt.qtd; i++) {
-        if (lt.tarefas[i].prioridade == prioridade && strcmp(lt.tarefas[i].categoria, categoria) == 0) {
+        if (lt.tarefas[i].prioridade == prioridade && strcmp(lt.tarefas[i].categoria, categoria) == 0) { // logica de ver se a categoria e a prioridade são existem em alguma tarefa
             fprintf(arquivo, "Prioridade: %d\n", lt.tarefas[i].prioridade);
             fprintf(arquivo, "Categoria: %s\n", lt.tarefas[i].categoria);
             fprintf(arquivo, "Estado: %s\n", lt.tarefas[i].estado);

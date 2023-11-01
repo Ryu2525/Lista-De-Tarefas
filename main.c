@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "biblioteca.h"
 
-//Julian, Eric Antunes, Letizia
+//Julian Ryu Takeda RA: 24.123.053-1
 
 int main() {
 
