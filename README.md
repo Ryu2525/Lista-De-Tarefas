@@ -1,1 +1,3 @@
 # Lista-De-Tarefas
+
+Esse codigo serve para fazer uma logica de criar listas e poder filtrar e exportar de varias maneiras diferentes. Temos varias funções que ajudam na organização do codigo na hora de gerar as listar criados pelos usuarios. Podendo ser criado diferentes listas com os topicos de descrição, prioridade, categoria e estado. Essa tarefa pode ser modificado caso ou deletada caso haja vontade do usuario. Tambem pode ser feita a listagem de todas as tarefas ou pode ser feito as filtragens caso o usuario queira ver algo especifico. No codigo tambem pode ser feito a exportação das tarefas desejada para um arquivo txt onde o usuario vai ter o acesso direto.
