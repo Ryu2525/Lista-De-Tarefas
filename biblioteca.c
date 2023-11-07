@@ -4,7 +4,6 @@
 
 void printMenu(){ // usada para printar o menu toda vez que acontece alguma ação no programa
     printf("\nGerenciador de Tarefas\n");
-    printf("Escolha a funcao:\n");
     printf("1 Adicionar nova tarefa\n");
     printf("2 Deletar tarefa\n");
     printf("3 Listar tarefas\n");
@@ -178,8 +177,29 @@ int FiltrarEstado(ListaDeTarefas lt){ // filtra pelo estado da tarefa: Completo,
     return 0;
 }
 
+///////////////////////////////////////////////////////////////////categoria
 int FiltrarCategoria(ListaDeTarefas lt){//preciso terminar
     char categoria[50];
+    char categorias_impressas[100][50];
+    int num_categorias_impressas = 0;
+
+    printf("Categorias disponiveis: ");
+    //função de printar as categorias existentes
+    for (int i = 0; i < lt.qtd; i++) {
+        int categoria_repetida = 0;
+        for (int j = 0; j < num_categorias_impressas; j++) {
+            if (strcmp(lt.tarefas[i].categoria, categorias_impressas[j]) == 0) {
+                categoria_repetida = 1;
+                break;
+            }
+        }
+
+        if (!categoria_repetida) {
+            printf("%s, ", lt.tarefas[i].categoria);
+            strcpy(categorias_impressas[num_categorias_impressas], lt.tarefas[i].categoria);
+            num_categorias_impressas++;
+        }
+    }
 
     printf("Escolha a categoria: \n");//O usuario vai poder escolher qual vai ser a prioridade que deseja ver
     scanf(" %[^\n]", categoria);
@@ -204,12 +224,35 @@ int FiltrarCategoria(ListaDeTarefas lt){//preciso terminar
 
     return 0;
 }
+/////////////////////////////////////////////////////////////////////categoria
 
 int FiltrarPrioridadeCategoria(ListaDeTarefas lt){ // filtrar por duas coisas: categoria e prioridade. Então se essas duas condições não forem satisfeita a tarefa nao aparece
     char categoria[50];
     int prioridade;
 
-    printf("Escolha a categoria: ");
+    printf("Categorias disponiveis: ");
+
+    char categorias_impressas[100][50];
+    int num_categorias_impressas = 0;
+
+    //função de printar as categorias existentes
+    for (int i = 0; i < lt.qtd; i++) {
+        int categoria_repetida = 0;
+        for (int j = 0; j < num_categorias_impressas; j++) {
+            if (strcmp(lt.tarefas[i].categoria, categorias_impressas[j]) == 0) {
+                categoria_repetida = 1;
+                break;
+            }
+        }
+
+        if (!categoria_repetida) {
+            printf("%s, ", lt.tarefas[i].categoria);
+            strcpy(categorias_impressas[num_categorias_impressas], lt.tarefas[i].categoria);
+            num_categorias_impressas++;
+        }
+    }
+
+    printf("\nEscolha a categoria: ");
     scanf(" %[^\n]", categoria);
 
     printf("Escolha a prioridade (0 a 10)");
@@ -229,7 +272,7 @@ int FiltrarPrioridadeCategoria(ListaDeTarefas lt){ // filtrar por duas coisas: c
         }
     }
     if (!verificar){
-        printf("Não existe tarefa com essa prioridade\n");
+        printf("Não existe essa tarefa\n");
     }
     return 0;
 }
@@ -272,18 +315,100 @@ int ExportarPrioridadeParaArquivo(ListaDeTarefas lt) { // Exportar para o arquiv
         return 1; // Retorna um código de erro
     }
 
-    printf("Tarefas exportadas com sucesso para o arquivo 'exortar.txt'.\n");
+    printf("Tarefas exportadas com sucesso para o arquivo 'exportar.txt'.\n");
     return 0;
 }
 
-// int ExportarCategoria(lt);
+/////////////////////////////categoria
+int ExportarCategoria(ListaDeTarefas lt){
+    char categoria[50];
+    char categorias_impressas[100][50];
+    int num_categorias_impressas = 0;
 
+    printf("Categorias disponiveis: ");
+
+    //função de printar as categorias existentes
+    for (int i = 0; i < lt.qtd; i++) {
+        int categoria_repetida = 0;
+        for (int j = 0; j < num_categorias_impressas; j++) {
+            if (strcmp(lt.tarefas[i].categoria, categorias_impressas[j]) == 0) {
+                categoria_repetida = 1;
+                break;
+            }
+        }
+
+        if (!categoria_repetida) {
+            printf("%s, ", lt.tarefas[i].categoria);
+            strcpy(categorias_impressas[num_categorias_impressas], lt.tarefas[i].categoria);
+            num_categorias_impressas++;
+        }
+    }
+
+    printf("\nEscolha a categoria: ");//O usuario vai poder escolher qual vai ser a prioridade que deseja ver
+    scanf(" %[^\n]", categoria);
+    clearBuffer();
+
+    FILE *arquivo;
+    arquivo = fopen("exportar.txt", "w"); // Abre o arquivo para escrita (cria um novo arquivo se não existir)
+
+    if (arquivo == NULL) {
+        printf("Não foi possível abrir o arquivo para escrita.\n");
+        return 1; // Retorna um código de erro
+    }
+
+    int verificar = 0;
+
+    for (int i = 0; i < lt.qtd; i++) {
+        if (strcmp(lt.tarefas[i].categoria, categoria) == 0) { // logica de ver se a categoria e a prioridade são existem em alguma tarefa
+            fprintf(arquivo, "Prioridade: %d\n", lt.tarefas[i].prioridade);
+            fprintf(arquivo, "Categoria: %s\n", lt.tarefas[i].categoria);
+            fprintf(arquivo, "Estado: %s\n", lt.tarefas[i].estado);
+            fprintf(arquivo, "Descricao: %s\n", lt.tarefas[i].descricao);
+            fprintf(arquivo, "\n");
+
+            verificar = 1;
+        }
+    }
+
+    fclose(arquivo); // Fecha o arquivo
+
+    if (!verificar) {
+        printf("Não existe essa tarefa.\n");
+        return 1; // Retorna um código de erro
+    }
+
+    printf("Tarefas exportadas com sucesso para o arquivo 'exportar.txt'.\n");
+    return 0;
+}
+//////////////////////////////////////////
 
 int ExportarPrioridadeCategoria(ListaDeTarefas lt){ // exportar informações para o arquivo exportar.txt
     char categoria[50];
     int prioridade;
 
-    printf("Escolha a categoria: ");
+    printf("Categorias disponiveis: ");
+
+    char categorias_impressas[100][50];
+    int num_categorias_impressas = 0;
+
+    //função de printar as categorias existentes
+    for (int i = 0; i < lt.qtd; i++) {
+        int categoria_repetida = 0;
+        for (int j = 0; j < num_categorias_impressas; j++) {
+            if (strcmp(lt.tarefas[i].categoria, categorias_impressas[j]) == 0) {
+                categoria_repetida = 1;
+                break;
+            }
+        }
+
+        if (!categoria_repetida) {
+            printf("%s, ", lt.tarefas[i].categoria);
+            strcpy(categorias_impressas[num_categorias_impressas], lt.tarefas[i].categoria);
+            num_categorias_impressas++;
+        }
+    }
+
+    printf("\nEscolha a categoria: ");
     scanf(" %[^\n]", categoria);
 
     printf("Escolha a prioridade (0 a 10): ");
@@ -314,11 +439,11 @@ int ExportarPrioridadeCategoria(ListaDeTarefas lt){ // exportar informações pa
     fclose(arquivo); // Fecha o arquivo
 
     if (!verificar) {
-        printf("Não existe tarefa com essa prioridade.\n");
+        printf("Não existe essa tarefa.\n");
         return 1; // Retorna um código de erro
     }
 
-    printf("Tarefas exportadas com sucesso para o arquivo 'exortar.txt'.\n");
+    printf("Tarefas exportadas com sucesso para o arquivo 'exportar.txt'.\n");
     return 0;
 }
 
