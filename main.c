@@ -42,7 +42,7 @@ int main() {
         }
         
         else if(opcao == 7){
-            // int FiltrarCategoria(lt);
+            FiltrarCategoria(lt);
         }
         
         else if(opcao == 8){
@@ -54,7 +54,7 @@ int main() {
         }
         
         else if(opcao == 10){
-            // int ExportarCategoria(lt);
+            ExportarCategoria(lt);
         }
         
         else if(opcao == 11){

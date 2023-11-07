@@ -1,5 +1,0 @@
-Prioridade: 2
-Categoria: exercicio
-Estado: completo
-Descricao: jogar bola
-
