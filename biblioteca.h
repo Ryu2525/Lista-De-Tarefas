@@ -33,5 +33,8 @@ int carregarLista(ListaDeTarefas *lt, char nome[]);
 
 int Exportar(ListaDeTarefas *lt, char nome[]);
 int carregarExportar(ListaDeTarefas *lt, char nome[]);
+int comparaTarefas(const void* a, const void* b);
+void exibeArray(Tarefa *array, int tamanho);
+void exibeExportar(Tarefa *array, int tamanho);
 
 #endif //UNTITLED3_BIBLIOTECA_H

@@ -1,0 +1,20 @@
+Prioridade: 10
+Categoria: exercicio
+Descricao: correr
+Estado: em andamento
+
+Prioridade: 5
+Categoria: exercicio
+Descricao: correr
+Estado: completo
+
+Prioridade: 5
+Categoria: exercicio
+Descricao: pular
+Estado: nao iniciado
+
+Prioridade: 4
+Categoria: exercicio
+Descricao: Luta
+Estado: completo
+

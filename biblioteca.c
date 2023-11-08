@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "biblioteca.h"
+#include <stdlib.h>
 
 void printMenu(){ // usada para printar o menu toda vez que acontece alguma ação no programa
     printf("\nGerenciador de Tarefas\n");
@@ -161,10 +162,10 @@ int FiltrarEstado(ListaDeTarefas lt){ // filtra pelo estado da tarefa: Completo,
 
     for(int i = 0; i < lt.qtd; i++){
         if(strcmp(lt.tarefas[i].estado, estado) == 0){ // logica de comparação para ver o estado que as tarefas estão
+            printf("Prioridade: %d\n", lt.tarefas[i].prioridade);
             printf("Estado: %s\n", lt.tarefas[i].estado);
             printf("Descricao: %s\n", lt.tarefas[i].descricao);
             printf("Categoria: %s\n", lt.tarefas[i].categoria);
-            printf("Prioridade: %d\n", lt.tarefas[i].prioridade);
             printf("\n");
             
             verificar = 1;
@@ -177,8 +178,7 @@ int FiltrarEstado(ListaDeTarefas lt){ // filtra pelo estado da tarefa: Completo,
     return 0;
 }
 
-///////////////////////////////////////////////////////////////////categoria
-int FiltrarCategoria(ListaDeTarefas lt){//preciso terminar
+int FiltrarCategoria(ListaDeTarefas lt){
     char categoria[50];
     char categorias_impressas[100][50];
     int num_categorias_impressas = 0;
@@ -201,30 +201,24 @@ int FiltrarCategoria(ListaDeTarefas lt){//preciso terminar
         }
     }
 
-    printf("Escolha a categoria: \n");//O usuario vai poder escolher qual vai ser a prioridade que deseja ver
+    printf("\nEscolha a categoria: ");//O usuario vai poder escolher qual vai ser a prioridade que deseja ver
     scanf(" %[^\n]", categoria);
     clearBuffer();
-    int verificar = 0;
+    Tarefa tarefas_filtro[100];
+    int contar = 0;
 
     for(int i = 0; i < lt.qtd; i++){
         if(strcmp(lt.tarefas[i].categoria, categoria) == 0){
-            printf("Categoria: %s\n", lt.tarefas[i].categoria);
-            printf("Descricao: %s\n", lt.tarefas[i].descricao);
-            printf("Prioridade: %d\n", lt.tarefas[i].prioridade);
-            printf("Estado: %s\n", lt.tarefas[i].estado);
-            printf("\n");
-            
-            verificar = 1;
+            tarefas_filtro[contar] = lt.tarefas[i];
+            contar++;
         }    
     }
-    if (!verificar){
-        printf("Não existe tarefa com essa categoria\n");
-    }  
 
+    qsort(tarefas_filtro, contar, sizeof(Tarefa), comparaTarefas);
+    exibeArray(tarefas_filtro, contar); 
 
     return 0;
 }
-/////////////////////////////////////////////////////////////////////categoria
 
 int FiltrarPrioridadeCategoria(ListaDeTarefas lt){ // filtrar por duas coisas: categoria e prioridade. Então se essas duas condições não forem satisfeita a tarefa nao aparece
     char categoria[50];
@@ -277,7 +271,7 @@ int FiltrarPrioridadeCategoria(ListaDeTarefas lt){ // filtrar por duas coisas: c
     return 0;
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////// Exportar //////////////////////////////////////////////////////////////////////////////////////////
 
 int ExportarPrioridadeParaArquivo(ListaDeTarefas lt) { // Exportar para o arquivo exportar.txt as tarefas que apresentam prioridade iguais
     int prioridade;
@@ -348,37 +342,18 @@ int ExportarCategoria(ListaDeTarefas lt){
     scanf(" %[^\n]", categoria);
     clearBuffer();
 
-    FILE *arquivo;
-    arquivo = fopen("exportar.txt", "w"); // Abre o arquivo para escrita (cria um novo arquivo se não existir)
+    Tarefa tarefas_filtro[100];
+    int contar = 0;
 
-    if (arquivo == NULL) {
-        printf("Não foi possível abrir o arquivo para escrita.\n");
-        return 1; // Retorna um código de erro
+    for(int i = 0; i < lt.qtd; i++){
+        if(strcmp(lt.tarefas[i].categoria, categoria) == 0){
+            tarefas_filtro[contar] = lt.tarefas[i];
+            contar++;
+        }    
     }
 
-    int verificar = 0;
-
-    for (int i = 0; i < lt.qtd; i++) {
-        if (strcmp(lt.tarefas[i].categoria, categoria) == 0) { // logica de ver se a categoria e a prioridade são existem em alguma tarefa
-            fprintf(arquivo, "Prioridade: %d\n", lt.tarefas[i].prioridade);
-            fprintf(arquivo, "Categoria: %s\n", lt.tarefas[i].categoria);
-            fprintf(arquivo, "Estado: %s\n", lt.tarefas[i].estado);
-            fprintf(arquivo, "Descricao: %s\n", lt.tarefas[i].descricao);
-            fprintf(arquivo, "\n");
-
-            verificar = 1;
-        }
-    }
-
-    fclose(arquivo); // Fecha o arquivo
-
-    if (!verificar) {
-        printf("Não existe essa tarefa.\n");
-        return 1; // Retorna um código de erro
-    }
-
-    printf("Tarefas exportadas com sucesso para o arquivo 'exportar.txt'.\n");
-    return 0;
+    qsort(tarefas_filtro, contar, sizeof(Tarefa), comparaTarefas);
+    exibeExportar(tarefas_filtro, contar); 
 }
 //////////////////////////////////////////
 
@@ -465,6 +440,7 @@ int salvarLista(ListaDeTarefas *lt, char nome[]){ // "escreve" em uma arquivo a 
     }
     return 0;
 }
+
 int carregarLista(ListaDeTarefas *lt, char nome[]){ // "lê" as informações em binário para que sejam usadas no programa toda vez que for iniciado
     FILE *f = fopen(nome, "rb");
     if (f == NULL){
@@ -475,4 +451,57 @@ int carregarLista(ListaDeTarefas *lt, char nome[]){ // "lê" as informações em
         fclose(f);
     }
     return 0;
+}
+
+int comparaTarefas(const void* a, const void* b){
+    int x = ((const Tarefa *)a)->prioridade; //isso faz a converção do elemento que esta sendo puxado como void para o elemento que é int
+    int y = ((const Tarefa *)b)->prioridade;// const int *y = (const int *)b isso pega um ponteiro int e joga na função void é procura um inteiro
+
+    if(x>y){
+        return -1;
+    }else if(x < y){
+        return 1;
+    }else{
+        return 0;
+    }
+}
+
+void exibeArray(Tarefa *array, int tamanho){
+    for(int i = 0; i<tamanho; i++){
+        printf("Prioridade: %d\n", array[i].prioridade);
+        printf("Categoria: %s\n", array[i].categoria);
+        printf("Descricao: %s\n", array[i].descricao);
+        printf("Estado: %s\n", array[i].estado);
+        printf("\n");
+    }
+    printf("\n");
+}
+
+void exibeExportar(Tarefa *array, int tamanho){
+    FILE *arquivo;
+    arquivo = fopen("exportar.txt", "w"); // Abre o arquivo para escrita (cria um novo arquivo se não existir)
+
+    if (arquivo == NULL) {
+        printf("Não foi possível abrir o arquivo para escrita.\n");
+    }
+
+    int verificar = 0;
+
+    for (int i = 0; i < tamanho; i++) {
+        fprintf(arquivo, "Prioridade: %d\n", array[i].prioridade);
+        fprintf(arquivo, "Categoria: %s\n", array[i].categoria);
+        fprintf(arquivo, "Descricao: %s\n", array[i].descricao);
+        fprintf(arquivo, "Estado: %s\n", array[i].estado);
+        fprintf(arquivo, "\n");
+
+        verificar = 1;
+    }
+
+    fclose(arquivo); // Fecha o arquivo
+
+    if (!verificar) {
+        printf("Não existe essa tarefa.\n");
+    }
+
+    printf("Tarefas exportadas com sucesso para o arquivo 'exportar.txt'.\n");
 }
