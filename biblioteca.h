@@ -6,6 +6,7 @@ typedef struct  { // struct que mostra onde vai ser salvo cada tipo de conteudo
     char categoria[50];
     int prioridade;
     char estado[15];
+    int id;
 }Tarefa;
 
 typedef struct{ // struct que armazenará cada tarefa
