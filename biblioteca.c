@@ -50,9 +50,14 @@ int criarTarefa(ListaDeTarefas *lt) { // Cria as tarefas para dentro do struct
 
 int DeletarTarefa(ListaDeTarefas *lt){ // deleta a tarefa escolhida pelo indice dela que esta entre 0 a 99
     int tarefaEscolhida;
-    printf("Qual tarefa voce deseja deletar? (0 a 99)"); // informa a tarefa a ser deletada
+    printf("Digite 100 para sair\n");
+    printf("Qual tarefa voce deseja deletar (0 a 99): "); // informa a tarefa a ser deletada
     scanf("%d", &tarefaEscolhida);
     clearBuffer();
+
+    if(tarefaEscolhida == 100){
+        printf("Tarefa parado\n");
+    }
 
     for (int i = tarefaEscolhida; i < 100; i++){
         lt->tarefas[i] = lt->tarefas[i + 1];
@@ -152,6 +157,8 @@ int FiltrarPrioridade(ListaDeTarefas lt){// Função para filtrar pela prioridad
     return 0;
 }
 
+//
+
 int FiltrarEstado(ListaDeTarefas lt){ // filtra pelo estado da tarefa: Completo, em andamento ou nao iniciada
     char estado[15];
 
@@ -178,7 +185,9 @@ int FiltrarEstado(ListaDeTarefas lt){ // filtra pelo estado da tarefa: Completo,
     return 0;
 }
 
-int FiltrarCategoria(ListaDeTarefas lt){
+//
+
+int FiltrarCategoria(ListaDeTarefas lt){// Filtrar pelo tipo de categoria e listar por ordem de prioridade (do mais importante para o menos).
     char categoria[50];
     char categorias_impressas[100][50];
     int num_categorias_impressas = 0;
@@ -214,11 +223,13 @@ int FiltrarCategoria(ListaDeTarefas lt){
         }    
     }
 
-    qsort(tarefas_filtro, contar, sizeof(Tarefa), comparaTarefas);
-    exibeArray(tarefas_filtro, contar); 
+    qsort(tarefas_filtro, contar, sizeof(Tarefa), comparaTarefas);//Função de ordenar do maior numero para o menor
+    exibeArray(tarefas_filtro, contar); //Exibi a tarefa ordenado da forma certa
 
     return 0;
 }
+
+//
 
 int FiltrarPrioridadeCategoria(ListaDeTarefas lt){ // filtrar por duas coisas: categoria e prioridade. Então se essas duas condições não forem satisfeita a tarefa nao aparece
     char categoria[50];
@@ -313,7 +324,8 @@ int ExportarPrioridadeParaArquivo(ListaDeTarefas lt) { // Exportar para o arquiv
     return 0;
 }
 
-/////////////////////////////categoria
+//
+
 int ExportarCategoria(ListaDeTarefas lt){
     char categoria[50];
     char categorias_impressas[100][50];
@@ -355,7 +367,8 @@ int ExportarCategoria(ListaDeTarefas lt){
     qsort(tarefas_filtro, contar, sizeof(Tarefa), comparaTarefas);
     exibeExportar(tarefas_filtro, contar); 
 }
-//////////////////////////////////////////
+
+//
 
 int ExportarPrioridadeCategoria(ListaDeTarefas lt){ // exportar informações para o arquivo exportar.txt
     char categoria[50];
@@ -423,7 +436,7 @@ int ExportarPrioridadeCategoria(ListaDeTarefas lt){ // exportar informações pa
 }
 
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////// Funções auxiliares para as principais funções ///////////////////////////////////////////////////////////////
 
 void clearBuffer(){ //evita erros com a função scanf
     int c;
@@ -455,7 +468,7 @@ int carregarLista(ListaDeTarefas *lt, char nome[]){ // "lê" as informações em
 
 int comparaTarefas(const void* a, const void* b){
     int x = ((const Tarefa *)a)->prioridade; //isso faz a converção do elemento que esta sendo puxado como void para o elemento que é int
-    int y = ((const Tarefa *)b)->prioridade;// const int *y = (const int *)b isso pega um ponteiro int e joga na função void é procura um inteiro
+    int y = ((const Tarefa *)b)->prioridade;
 
     if(x>y){
         return -1;
@@ -466,7 +479,7 @@ int comparaTarefas(const void* a, const void* b){
     }
 }
 
-void exibeArray(Tarefa *array, int tamanho){
+void exibeArray(Tarefa *array, int tamanho){//Vai mostrar a lista do jeito ordenado do maior para o menor
     for(int i = 0; i<tamanho; i++){
         printf("Prioridade: %d\n", array[i].prioridade);
         printf("Categoria: %s\n", array[i].categoria);
@@ -477,7 +490,7 @@ void exibeArray(Tarefa *array, int tamanho){
     printf("\n");
 }
 
-void exibeExportar(Tarefa *array, int tamanho){
+void exibeExportar(Tarefa *array, int tamanho){// vai mostrar a lista do jeito ordenado do maior para o menor e exportar para o exporta.txt
     FILE *arquivo;
     arquivo = fopen("exportar.txt", "w"); // Abre o arquivo para escrita (cria um novo arquivo se não existir)
 
