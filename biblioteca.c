@@ -39,6 +39,8 @@ int criarTarefa(ListaDeTarefas *lt) { // Cria as tarefas para dentro do struct
         printf("Digite o estado da atividade (completo|em andamento|nao iniciado): ");
         scanf(" %[^\n]", lt->tarefas[lt->qtd].estado);
 
+        lt->tarefas[lt->qtd].id = lt->qtd + 1;
+
         printf("Tarefa adicionada com sucesso!\n");
     }
     else{ // se a lista tiver mais de 100 nao vai deixar criar mais tarefas
@@ -50,27 +52,27 @@ int criarTarefa(ListaDeTarefas *lt) { // Cria as tarefas para dentro do struct
 
 int DeletarTarefa(ListaDeTarefas *lt){ // deleta a tarefa escolhida pelo indice dela que esta entre 0 a 99
     int tarefaEscolhida;
-    printf("Digite 100 para sair\n");
     printf("Qual tarefa voce deseja deletar (0 a 99): "); // informa a tarefa a ser deletada
     scanf("%d", &tarefaEscolhida);
     clearBuffer();
 
-    if(tarefaEscolhida == 100){
-        printf("Tarefa parado\n");
+    if (tarefaEscolhida < 0 || tarefaEscolhida >= lt->qtd) {
+        printf("Indice invalido!\n");
+        return 0;
     }
 
-    for (int i = tarefaEscolhida; i < 100; i++){
+    for (int i = tarefaEscolhida - 1; i < lt->qtd - 1; i++){
         lt->tarefas[i] = lt->tarefas[i + 1];
+        lt->tarefas[i].id = lt->qtd - 1;
     }
-
     lt->qtd--;// ao deletar uma tarefa, as posições das restante devem "descer" para uma posição abaixo da que estava
+    printf("Tarefa deletada\n");
     return 0;
 }
 
-
 int ListarTarefa(ListaDeTarefas lt){ // lista as tarefas sem filtro
         for (int i = 0; i < lt.qtd; i++){ //apenas aparece as tarefas já estabelecidas
-            printf("Tarefa %d\n", i);
+            printf("Tarefa: %d\n", lt.tarefas[i].id);
             printf("Descricao: %s\n", lt.tarefas[i].descricao);
             printf("Categoria: %s\n", lt.tarefas[i].categoria);
             printf("Prioridade: %d\n", lt.tarefas[i].prioridade);
